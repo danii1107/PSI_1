@@ -1,8 +1,6 @@
 # entorno virtual
 p1_env/
 # pycache
-locallybrary/catalog/__pycache__/
-locallybrary/__pycache__/
-locallybrary/locallybrary/__pycache__
+__pycache__/
 # ejecutable
 locallybrary/db.sqlite3
