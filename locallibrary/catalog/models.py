@@ -92,7 +92,6 @@ class Author(models.Model):
         """
         return reverse('author-detail', args=[str(self.id)])
 
-
     def __str__(self):
         """
         String para representar el Objeto Modelo
