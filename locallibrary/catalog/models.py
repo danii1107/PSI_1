@@ -1,35 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-class MyModelName(models.Model):
-    """
-    Una clase típica definiendo un modelo, derivado desde la clase Model.
-    """
-
-    # Campos
-    my_field_name = models.CharField(
-        verbose_name = "BetterName",
-		max_length = 20,
-		help_text = "Enter field documentation",
-	)
-
-    # Metadata
-    class Meta:
-        ordering = ["-my_field_name"]
-
-    # Métodos
-    def get_absolute_url(self):
-         """
-         Devuelve la url para acceder a una instancia particular de MyModelName.
-         """
-         return reverse('model-detail-view', args=[str(self.id)])
-
-    def __str__(self):
-        """
-        Cadena para representar el objeto MyModelName (en el sitio de Admin, etc.)
-        """
-        return self.field_name
-
 class Genre(models.Model):
     """
     Modelo que representa un género literario (p. ej. ciencia ficción, poesía, etc.).
@@ -61,6 +32,8 @@ class Book(models.Model):
     # ManyToManyField, porque un género puede contener muchos libros y un libro puede cubrir varios géneros.
     # La clase Genre ya ha sido definida, entonces podemos especificar el objeto arriba.
 
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+    
     def __str__(self):
         """
         String que representa al objeto Book
@@ -125,3 +98,24 @@ class Author(models.Model):
         String para representar el Objeto Modelo
         """
         return '%s, %s' % (self.last_name, self.first_name)
+
+class Language(models.Model):
+    """
+    Modelo que representa un lenguaje
+    """
+    name = models.CharField(
+        max_length=200,
+        help_text="Ingrese el nombre del lenguaje (por ejemplo, Inglés, Español, Francés, etc.)"
+    )
+
+    def get_absolute_url(self):
+        """
+        Retorna la url para acceder a una instancia particular de un lenguaje.
+        """
+        return reverse('language-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String para representar el Objeto Modelo
+        """
+        return self.name
