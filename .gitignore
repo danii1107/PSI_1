@@ -3,4 +3,4 @@ p1_env/
 # pycache
 __pycache__/
 # ejecutable
-locallybrary/db.sqlite3
+db.sqlite3
