@@ -75,6 +75,17 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'psi',
+		'USER': 'alumnodb',
+        'PASSWORD': 'alumnodb',
+		'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
 db_from_env = dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi', conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
