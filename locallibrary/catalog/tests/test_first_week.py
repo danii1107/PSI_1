@@ -7,8 +7,8 @@ EPS-UAM 2024
 import sys
 import os
 from django.test import TestCase
-from catalog import urls
-
+from django.urls import reverse
+from .views import index
 from catalog.models import Book, BookInstance, Language, Genre, Author
 
 def check_environment():
@@ -136,6 +136,66 @@ class AuthorModelTest(TestCase):
         author = Author.objects.get(id=1)
         expected_object_name = f'{author.last_name}, {author.first_name}'
         self.assertEqual(str(author), expected_object_name)
+
+
+class GenreModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Genre.objects.create(name='Fiction')
+
+    def test_name_label(self):
+        genre = Genre.objects.get(id=1)
+        field_label = genre._meta.get_field('name').verbose_name
+        self.assertEqual(field_label, 'name')
+
+    def test_name_max_length(self):
+        genre = Genre.objects.get(id=1)
+        max_length = genre._meta.get_field('name').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_object_name_is_name(self):
+        genre = Genre.objects.get(id=1)
+        expected_object_name = genre.name
+        self.assertEqual(str(genre), expected_object_name)
+
+class BookModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author = Author.objects.create(first_name='Big', last_name='Bob')
+        genre = Genre.objects.create(name='Fiction')
+        language = Language.objects.create(name='Spanish')
+        Book.objects.create(title='The Book', author=author, summary='This is a good book.', isbn='0123456789012', language=language)
+
+    def test_title_label(self):
+        book = Book.objects.get(id=1)
+        field_label = book._meta.get_field('title').verbose_name
+        self.assertEqual(field_label, 'title')
+
+    def test_summary_max_length(self):
+        book = Book.objects.get(id=1)
+        max_length = book._meta.get_field('summary').max_length
+        self.assertEqual(max_length, 1000)
+
+
+class BookInstanceModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author = Author.objects.create(first_name='Big', last_name='Bob')
+        genre = Genre.objects.create(name='Fiction')
+        language = Language.objects.create(name='Spanish')
+        book = Book.objects.create(title='The Book', author=author, summary='This is a good book.', isbn='0123456789012', language=language)
+        BookInstance.objects.create(book=book, imprint='X Publisher', due_back='2022-01-21')
+
+class LanguageModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Language.objects.create(name='Spanish')
+
+class IndexViewTest(TestCase):
+    def test_index_view(self):
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content.decode('utf-8'), 'yes')
 
     #def test_get_absolute_url(self):
         #author = Author.objects.get(id=1)
