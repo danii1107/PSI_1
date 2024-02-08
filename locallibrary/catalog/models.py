@@ -34,6 +34,13 @@ class Book(models.Model):
 
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
+    def display_genre(self):
+        """
+        Creates a string for the Genre. This is required to display genre in Admin.
+        """
+        return ', '.join([ genre.name for genre in self.genre.all()[:3] ])
+        display_genre.short_description = 'Genre'
+
     def __str__(self):
         """
         String que representa al objeto Book
