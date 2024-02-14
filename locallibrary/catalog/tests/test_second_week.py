@@ -39,7 +39,7 @@ class SecondWeekTests(TestCase):
     def test_book_class_additions(self):
         from catalog.models import Book
         self.assertTrue('display_genre' in str(Book.display_genre))
-        self.assertEqual(Book.display_genre.short_description,'Genre') #falta añadir short description a genre
+        self.assertEqual(Book.display_genre.short_description,'Genre')
 
 
     def test_new_added_author_admin(self):

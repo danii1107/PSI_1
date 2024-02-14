@@ -19,6 +19,9 @@ def index(request):
     num_books_containing_word = Book.objects.all().filter(
         title__icontains='After').count()
 
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -26,6 +29,7 @@ def index(request):
         'num_authors': num_authors,
         'num_genres': num_genres,
         'num_books_containing_word': num_books_containing_word,
+        'num_visits':num_visits,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -36,14 +40,27 @@ from django.views import generic
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 2
+    paginate_by = 5
 
 class BookDetailView(generic.DetailView):
     model = Book
 
 class AuthorListView(generic.ListView):
     model = Author
-    paginate_by = 1
+    paginate_by = 3
 
 class AuthorDetailView(generic.DetailView):
    model = Author
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    """
+    Vista genérica basada en clases que enumera los libros prestados al usuario actual.
+    """
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
