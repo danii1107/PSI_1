@@ -106,6 +106,9 @@ class Author(models.Model):
     date_of_birth = models.DateField(null=True, blank=True, verbose_name='birth')
     date_of_death = models.DateField('Died', null=True, blank=True)
 
+    class Meta:
+        ordering = ["first_name", "last_name"]
+
     def get_absolute_url(self):
         """
         Retorna la url para acceder a una instancia particular de un autor.
