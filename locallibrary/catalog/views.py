@@ -77,3 +77,15 @@ class LoanedBooksListView(LoginRequiredMixin,generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
+
+class LoanedBooksListView(LoginRequiredMixin,generic.ListView):
+    """
+    Vista genérica basada en clases que enumera los libros prestados al usuario actual.
+    """
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_all_borrowed.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
