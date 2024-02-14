@@ -26,9 +26,13 @@
               {% if user.is_authenticated %}
                 <li>User: {{ user.get_username }}</li>
                 <li><a href="{% url 'my-borrowed' %}">Mis libros prestados</a></li>
-                <li><a href="{% url 'logout'%}?next={{request.path}}">Cerrar sesión</a></li>
+                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
               {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}">Iniciar sesión</a></li>
+                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+              {% endif %}
+              {% if user.is_staff %}
+                <li> Staff </li>
+                <li><a href="{% url 'all-borrowed' %}">Los libros prestados</a></li>
               {% endif %}
             </ul>
           {% endblock %}

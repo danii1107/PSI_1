@@ -138,3 +138,8 @@ class Language(models.Model):
         String para representar el Objeto Modelo
         """
         return self.name
+
+class Staff(models.Model):
+    """
+    Modelo que representa un bibliotecario
+    """
