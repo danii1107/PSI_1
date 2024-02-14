@@ -37,6 +37,9 @@ class Book(models.Model):
 
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
+    class Meta:
+        ordering = ["title"]
+
     def display_genre(self):
         """
         Creates a string for the Genre. This is required to display genre in Admin.
@@ -141,8 +144,3 @@ class Language(models.Model):
         String para representar el Objeto Modelo
         """
         return self.name
-
-class Staff(models.Model):
-    """
-    Modelo que representa un bibliotecario
-    """
