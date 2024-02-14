@@ -12,6 +12,7 @@ admin.site.register(Genre)
 # Register the Admin classes for Book using the decorator
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
+    extra = 0
 
 class BooksInline(admin.TabularInline):  # o admin.StackedInline para un formato diferente
     model = Book
