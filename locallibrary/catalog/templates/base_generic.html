@@ -13,6 +13,7 @@
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/frontpage-styles.css' %}" />
   </head>
   <body>
     <div class="container-fluid">
@@ -26,9 +27,9 @@
               {% if user.is_authenticated %}
                 <li>User: {{ user.get_username }}</li>
                 <li><a href="{% url 'my-borrowed' %}">Mis libros prestados</a></li>
-                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                <li><button class="logout-button" onclick="window.location.href='{% url 'logout'%}?next={{request.path}}'">Logout</button></li>
               {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+              <li><button class="login-button" onclick="window.location.href='{% url 'login'%}?next={{request.path}}'">Login</button></li>
               {% endif %}
               {% if user.is_staff %}
                 <li> Staff </li>
