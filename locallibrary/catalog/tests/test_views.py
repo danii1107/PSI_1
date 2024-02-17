@@ -28,7 +28,7 @@ class AuthorListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'catalog/author_list.html')
 
-    def test_pagination_is_three(self):
+    def test_pagination_is_ten(self):
         response = self.client.get(reverse('authors'))
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
@@ -316,7 +316,7 @@ class AuthorCreateViewTest(TestCase):
         response = self.client.get(self.create_author_url)
         self.assertRedirects(response, f'/accounts/login/?next={self.create_author_url}')
 
-    def test_logged_in_user_with_permission_can_access_view(self):
+    def test_logged_in_with_permission(self):
         self.client.login(username='test_user', password='some_password')
         response = self.client.get(self.create_author_url)
         self.assertEqual(response.status_code, 200)
@@ -332,13 +332,21 @@ class AuthorCreateViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'catalog/author_form.html')
 
-    def test_form_initial_date_of_death(self):
+    def test_form_date_of_death_initially_set_to_expected_date(self):
         self.client.login(username='test_user', password='some_password')
         response = self.client.get(self.create_author_url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'value="11/11/2023"')
 
-    def test_redirect_after_post(self):
+    def test_redirects_to_detail_view_on_success(self):
         self.client.login(username='test_user', password='some_password')
         response = self.client.post(self.create_author_url, {'first_name': 'First', 'last_name': 'Last', 'date_of_birth': '01/01/1950', 'date_of_death': '11/11/2023'})
         self.assertEqual(response.status_code, 302)
+
+    def test_forbidden_if_logged_in_but_not_correct_permission(self):
+        self.client.login(username='test_user', password='some_password')
+        permission = Permission.objects.get(codename='add_author')
+        self.test_user.user_permissions.remove(permission)
+        self.test_user.save()
+        response = self.client.get(self.create_author_url)
+        self.assertEqual(response.status_code, 403)

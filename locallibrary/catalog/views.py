@@ -143,7 +143,7 @@ from django.urls import reverse_lazy
 from .models import Author
 from django.contrib.auth.mixins import PermissionRequiredMixin 
 
-class AuthorCreate(PermissionRequiredMixin, CreateView):
+class AuthorCreate(PermissionRequiredMixin , CreateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     initial = {'date_of_death': '11/11/2023'}
@@ -152,13 +152,31 @@ class AuthorCreate(PermissionRequiredMixin, CreateView):
 class AuthorUpdate(UpdateView):
     model = Author
     fields = ['first_name','last_name','date_of_birth','date_of_death']
+    permission_required = 'catalog.change_author'
 
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
-
+    permission_required = 'catalog.delete_author'
+    
 from .models import Book
 
-class BookCreate(CreateView):
+from django.contrib.auth.mixins import UserPassesTestMixin
+from .models import Book
+
+class StaffOrPermissionRequiredMixin(UserPassesTestMixin):
+    """Mixin que requiere que el usuario sea miembro del staff o tenga un permiso específico."""
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.has_perm('catalog.can_mark_returned')
+
+class BookCreate(StaffOrPermissionRequiredMixin, CreateView):
     model = Book
-    fields = '__all__'
+    fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
+
+class BookUpdate(StaffOrPermissionRequiredMixin, UpdateView):
+    model = Book
+    fields = ['title','author','summary','isbn', 'genre', 'language']
+
+class BookDelete(StaffOrPermissionRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
