@@ -93,7 +93,7 @@ class LoanedBooksListView(LoginRequiredMixin,generic.ListView):
 
 
 
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -102,7 +102,8 @@ import datetime
 
 from .forms import RenewBookForm
 
-@permission_required('catalog.can_mark_returned')
+@login_required
+@permission_required('catalog.can_mark_returned', raise_exception=True)
 def renew_book_librarian(request, pk):
     """
     View function for renewing a specific BookInstance by librarian
@@ -129,17 +130,24 @@ def renew_book_librarian(request, pk):
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
 
-    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+    context = {
+        'form': form,
+        'book_instance': book_inst,
+    }
+
+    return render(request, 'catalog/book_renew_librarian.html', context)
 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
+from django.contrib.auth.mixins import PermissionRequiredMixin 
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
-    fields = '__all__'
-    initial={'date_of_death':'05/01/2018',}
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    initial = {'date_of_death': '11/11/2023'}
+    permission_required = 'catalog.add_author'
 
 class AuthorUpdate(UpdateView):
     model = Author
