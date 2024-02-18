@@ -1,10 +1,5 @@
-# entorno virtual
 p1_env/
-# pycache
 __pycache__/
-# ejecutable
 db.sqlite3
-#coverage
 .coverage
-# personal use script
-script.sql
+*.pyc
