@@ -80,18 +80,6 @@ class LoanedBooksListView(LoginRequiredMixin,generic.ListView):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
 
 
-class LoanedBooksListView(LoginRequiredMixin,generic.ListView):
-    """
-    Vista genérica basada en clases que enumera los libros prestados al usuario actual.
-    """
-    model = BookInstance
-    template_name ='catalog/bookinstance_list_all_borrowed.html'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
-
-
 
 from django.contrib.auth.decorators import permission_required, login_required
 
@@ -142,22 +130,31 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
 from django.contrib.auth.mixins import PermissionRequiredMixin 
+from django.contrib.auth.mixins import UserPassesTestMixin
 
-class AuthorCreate(PermissionRequiredMixin , CreateView):
+
+class PermissionRequiredMixin1(UserPassesTestMixin):
+    """Mixin que requiere que el usuario sea miembro del staff o tenga un permiso específico."""
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.has_perm('catalog.add_author')
+
+class AuthorCreate(PermissionRequiredMixin1, CreateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     initial = {'date_of_death': '11/11/2023'}
     permission_required = 'catalog.add_author'
 
-class AuthorUpdate(UpdateView):
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     model = Author
-    fields = ['first_name','last_name','date_of_birth','date_of_death']
+    # Not recommended (potential security issue if more fields added)
+    fields = '__all__'
     permission_required = 'catalog.change_author'
 
-class AuthorDelete(DeleteView):
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
     permission_required = 'catalog.delete_author'
+
     
 from .models import Book
 

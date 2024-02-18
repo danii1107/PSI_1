@@ -157,3 +157,4 @@ class LanguageModelTest(TestCase):
     def test_object_name_is_name(self):
         expected_object_name = self.language.name
         self.assertEqual(str(self.language), expected_object_name)
+

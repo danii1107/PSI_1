@@ -133,12 +133,6 @@ class Language(models.Model):
         help_text="Ingrese el nombre del lenguaje (por ejemplo, Inglés, Español, Francés, etc.)"
     )
 
-    def get_absolute_url(self):
-        """
-        Retorna la url para acceder a una instancia particular de un lenguaje.
-        """
-        return reverse('language-detail', args=[str(self.id)])
-
     def __str__(self):
         """
         String para representar el Objeto Modelo

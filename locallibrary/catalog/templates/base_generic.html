@@ -29,9 +29,9 @@
               {% if user.is_authenticated %}
                 <li>User: {{ user.get_username }}</li>
                 <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-                <li><button class="logout-button" onclick="window.location.href='{% url 'logout' %}?next={{request.path}}'">Logout</button></li>
+                <li><button class="logout-button" onclick="window.location.href='{% url 'logout' %}?next={{request.path}}'">Logout </button></li>
               {% else %}
-                <li><button class="login-button" onclick="window.location.href='{% url 'login' %}?next={{request.path}}'">Login</button></li>
+                <li><button class="login-button" onclick="window.location.href='{% url 'login' %}?next={{request.path}}'">Login </button></li>
               {% endif %}
             </ul>
             {% if user.is_staff %}
@@ -46,7 +46,7 @@
                 <li><a href="{% url 'book-create' %}">Create book</a></li>
               {% endif %}
               </ul>
-              {% endif %}
+            {% endif %}
           {% endblock %}
         </div>
         <div class="col-sm-10 ">{% block content %}{% endblock %}
