@@ -33,6 +33,10 @@ DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS').split(' ')]
 
+STATIC_URL = '/static/'
+
+# Add this line to specify where collected static files will be stored
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
 
