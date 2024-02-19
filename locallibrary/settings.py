@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['psi-1-qptd-onrender.com']
+ALLOWED_HOSTS = ['psi-1-qptd.onrender.com', '127.0.0.1']
 
 STATIC_URL = 'static/'
 
