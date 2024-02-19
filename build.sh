@@ -6,4 +6,4 @@ pip3 install -r requirements.txt
 
 python3.11 manage.py collectstatic --no-input
 python3.11 manage.py migrate
-python3.11 manage.py createsuperuser --noinput
+python3.11 manage.py shell < catalog/images/commands/createsu.py
