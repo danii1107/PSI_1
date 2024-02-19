@@ -14,6 +14,7 @@ from pathlib import Path
 import dj_database_url
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25dzes6^2@sm9t$$g6$&4_$xb5e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'psi',
 		'USER': 'alumnodb',
         'PASSWORD': 'alumnodb',
-		'HOST': 'localhost',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
