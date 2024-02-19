@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import dj_database_url
 import os
 
@@ -19,15 +20,18 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+load_dotenv(BASE_DIR / '.env')
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-SECRET_KEY = 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25dzes6^2@sm9t$$g6$&4_$xb5e'
+SECRET_KEY = SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25dzes6^2@sm9t$$g6$&4_$xb5e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS').split(' ')]
 
 
 # Application definition
@@ -78,17 +82,10 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'psi',
-		'USER': 'alumnodb',
-        'PASSWORD': 'alumnodb',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
 }
 
-db_from_env = dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi', conn_max_age=500)
+db_from_env = dj_database_url.config(default='postgres://alumnodb_jww0_user:6HXkfn96AAZjq0EYimeOjQaiLLjWNI0E@dpg-cn9njjed3nmc73djb9p0-a/alumnodb_jww0', conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 # Password validation
