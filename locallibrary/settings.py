@@ -31,12 +31,11 @@ SECRET_KEY = SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-mmj&4u9bcd0=@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS').split(' ')]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
-# Add this line to specify where collected static files will be stored
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -89,10 +88,21 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'psi',
+    'USER': 'alumnodb',
+    'PASSWORD': 'a5CkyR2YFzlu',
+    'HOST': 'ep-old-frog-a2p0guyo.eu-central-1.aws.neon.tech',
+    'PORT': '5432',
+    'OPTIONS': {'sslmode': 'require'},
+  }
 }
 
-db_from_env = dj_database_url.config(default='postgres://alumnodb_jww0_user:6HXkfn96AAZjq0EYimeOjQaiLLjWNI0E@dpg-cn9njjed3nmc73djb9p0-a/alumnodb_jww0', conn_max_age=500)
+if 'TESTING' in os.environ:
+    db_from_env = dj_database_url.config(default="postgres://alumnodb:alumnodb@localhost:5432/psi", conn_max_age=500)
+else:
+    db_from_env = dj_database_url.config(default="postgresql://alumnodb:a5CkyR2YFzlu@ep-old-frog-a2p0guyo.eu-central-1.aws.neon.tech/psi?sslmode=require", conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 # Password validation
