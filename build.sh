@@ -2,8 +2,9 @@
 
 set -o errexit  # exit on error
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-python manage.py collectstatic --no-input
-python manage.py migrate
-python manage.py createsuperuser
+python3.11 manage.py collectstatic --no-input
+python3.11 manage.py migrate
+python3.11 populate_catalog.py
+python3.11 manage.py createsuperuser

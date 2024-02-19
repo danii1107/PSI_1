@@ -95,7 +95,6 @@ DATABASES = {
     'PASSWORD': 'a5CkyR2YFzlu',
     'HOST': 'ep-old-frog-a2p0guyo.eu-central-1.aws.neon.tech',
     'PORT': '5432',
-    'OPTIONS': {'sslmode': 'require'},
   }
 }
 
@@ -134,12 +133,6 @@ TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
