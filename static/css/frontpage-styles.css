@@ -1,0 +1,52 @@
+
+
+.login-button {
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block;
+    font-size: 16px; 
+    margin: 4px 2px;
+    cursor: pointer; 
+    border-radius: 20px;
+  }
+  
+  .logout-button {
+    background-color: #dc3545; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block;
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+  }
+
+
+.content-list {
+  list-style-type: none; 
+  padding-left: 0; 
+}
+
+.content-list li {
+  margin-bottom: 5px; 
+  counter-increment: item; 
+}
+
+.content-list li:before {
+  content: counter(item); 
+  background-color: #cfbe26; 
+  color: rgb(124, 154, 236); 
+  border-radius: 6px;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  margin-right: 10px;
+}
