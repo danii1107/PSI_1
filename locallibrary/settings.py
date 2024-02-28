@@ -26,14 +26,14 @@ load_dotenv(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25dzes6^2@sm9t$$g6$&4_$xb5e')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-ALLOWED_HOSTS = ['psi-1-qptd.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
-STATIC_URL = 'static/'
+STATIC_URL = os.getenv('STATIC_URL')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -88,6 +88,16 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
+    }
+}
+""" DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'psi',
@@ -96,7 +106,7 @@ DATABASES = {
     'HOST': 'ep-old-frog-a2p0guyo.eu-central-1.aws.neon.tech',
     'PORT': '5432',
   }
-}
+} """
 
 if 'TESTING' in os.environ:
     db_from_env = dj_database_url.config(default="postgres://alumnodb:alumnodb@localhost:5432/psi", conn_max_age=500)
