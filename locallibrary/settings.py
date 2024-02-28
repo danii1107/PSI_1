@@ -29,7 +29,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-mmj&4u9bcd0=@x)gv08m7%x25dzes6^2@sm9t$$g6$&4_$xb5e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
 ALLOWED_HOSTS = ['psi-1-qptd.onrender.com', '127.0.0.1']
 
