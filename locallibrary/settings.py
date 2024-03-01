@@ -97,16 +97,7 @@ DATABASES = {
         'PORT': os.getenv('DATABASE_PORT'),
     }
 }
-""" DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'psi',
-    'USER': 'alumnodb',
-    'PASSWORD': 'a5CkyR2YFzlu',
-    'HOST': 'ep-old-frog-a2p0guyo.eu-central-1.aws.neon.tech',
-    'PORT': '5432',
-  }
-} """
+
 
 if 'TESTING' in os.environ:
     db_from_env = dj_database_url.config(default="postgres://alumnodb:alumnodb@localhost:5432/psi", conn_max_age=500)
