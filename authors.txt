@@ -1,6 +1,7 @@
 Enrique Gómez Fernández y Daniel Birsan
 G2321 - PSI-10
-Aplicacion desplegada en: https://psi-1-qptd.onrender.com
+
+La BBDD ya no está disponible, no se puede desplegar en render. 
 
 Se pone a su disposicion un .env para exportar todo lo necesario para desplegar localmente.
 Para el correcto funcionamiento de la aplicación, es necesario asegurarse de que cada usuario tenga los permisos necesarios.
